@@ -1,3 +1,3 @@
 # ninja-scripts
 
-useful scripts Powershell/bash/python scripts for administration and productictivity
+useful  powershell/bash/python scripts for administration and productivity
