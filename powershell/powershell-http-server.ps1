@@ -28,5 +28,6 @@ $actions = @{
 
 $paramNames = @{};
 $actions.Keys | %{ $paramNames.Add($_,  $( $_ | sls -allmatches "\{[a-zA-Z]*\}" |  %{ $_.Matches} | %{ $_.Value.Substring(1,$_.Value.Length-2); }))};
-
+$pathPatterns = @{};
+$pathPatterns = ($actions.Keys  -replace "\{[a-zA-Z]*\}", "\{[a-zA-Z]*\}" | -replace "/","\/");
 
