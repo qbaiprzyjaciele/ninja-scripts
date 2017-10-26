@@ -6,7 +6,7 @@ function startServer() {
 
     $httpListener = New-Object System.Net.HttpListener;
     $baseAddr = "http://" + $hostName + ":" + $port + "/";
-    $httpListener.Prefixes.Add("http://" + $hostName + $port + "/");
+    $httpListener.Prefixes.Add($baseAddr);
     $httpListener.Start();
 }
 
@@ -29,5 +29,5 @@ $actions = @{
 $paramNames = @{};
 $actions.Keys | %{ $paramNames.Add($_,  $( $_ | sls -allmatches "\{[a-zA-Z]*\}" |  %{ $_.Matches} | %{ $_.Value.Substring(1,$_.Value.Length-2); }))};
 $pathPatterns = @{};
-$pathPatterns = ($actions.Keys  -replace "\{[a-zA-Z]*\}", "\{[a-zA-Z]*\}" | -replace "/","\/");
+$pathPatterns = ($actions.Keys  -replace "\{[a-zA-Z]*\}", "\{[a-zA-Z]*\}"  -replace "/","\/");
 
