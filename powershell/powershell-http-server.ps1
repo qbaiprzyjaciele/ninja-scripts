@@ -1,6 +1,6 @@
 
 
-function startServer() {
+function startServer($actions, $paramNames, $pathPatterns) {
     $hostName = "localhost";
     $port = 8087;
 
@@ -8,6 +8,15 @@ function startServer() {
     $baseAddr = "http://" + $hostName + ":" + $port + "/";
     $httpListener.Prefixes.Add($baseAddr);
     $httpListener.Start();
+    While($httpListener.IsListening) {
+        $ctx = $httpListener.GetContext();
+        $req = $ctx.Request;
+        $path = $req.Url.LocalPath;
+        echo "$path requested...;
+        $actions.Keys | 
+        
+    }
+
 }
 
 function startAction($pathParams, $queryParams) {
@@ -29,5 +38,6 @@ $actions = @{
 $paramNames = @{};
 $actions.Keys | %{ $paramNames.Add($_,  $( $_ | sls -allmatches "\{[a-zA-Z]*\}" |  %{ $_.Matches} | %{ $_.Value.Substring(1,$_.Value.Length-2); }))};
 $pathPatterns = @{};
-$pathPatterns = ($actions.Keys  -replace "\{[a-zA-Z]*\}", "\{[a-zA-Z]*\}"  -replace "/","\/");
+$actions.Keys  | %{ $pathPatterns.Add($_, $_ -replace "\{[a-zA-Z]*\}", "\{[a-zA-Z]*\}"  -replace "/","\/" };
+
 
