@@ -111,4 +111,16 @@ function evalNumFunction(functionName, paramValue, value) {
   return functions[functionName](paramValue, value);
 }
 
+function movingAverage(window, values) {
+  let movingAverage = [];
+  for(let i = window; i<values.length-window; i++) {
+    let avgSum = 0;
+    for(let j=i-window; j<i; j++) {
+        avgSum += values[j].x;
+    }
+    const avg = avgSum/window;
+    movingAverage[i-window] = avg;
+  }
+  return movingAverage;
+}
 
